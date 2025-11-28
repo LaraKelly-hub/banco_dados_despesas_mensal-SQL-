@@ -1,0 +1,112 @@
+USE Despesas_mensais;
+
+-- ============================
+-- TABELAS
+-- ============================
+
+CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nome_usuario VARCHAR(100),
+    renda_mensal DECIMAL(10,2)
+);
+
+CREATE TABLE categorias (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_gasto VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE despesas (
+    id_despesas INT AUTO_INCREMENT PRIMARY KEY,
+    nome_despesa VARCHAR(100) NOT NULL,
+    id_usuario INT NOT NULL,
+    id_categoria INT NOT NULL,
+    data_despesas DATE NOT NULL,
+    valor_gasto DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+);
+
+-- ============================
+-- INSERÇÃO DE DADOS
+-- ============================
+
+INSERT INTO categorias (tipo_gasto) VALUES
+('Alimentação'),
+('Lazer'),
+('Viagens'),
+('Saúde');
+
+INSERT INTO usuarios (nome_usuario, renda_mensal) VALUES
+('Carlos Lian', 2400),
+('Andreza Silva', 6700),
+('Josyane Brandão', 3100);
+
+INSERT INTO despesas (nome_despesa, id_usuario, id_categoria, data_despesas, valor_gasto) VALUES
+('Compra do mês', 1, 1, '2025-08-10', 900),
+('2 diária em hotel', 2, 2, '2025-08-21', 1200),
+('Reunião no escritório', 3, 3, '2025-08-30', 1000),
+('Exame do pulmão', 3, 4, '2025-09-01', 900),
+('Salão', 2, 2, '2025-09-03', 1200),
+('Carnes fresca e frutas', 1, 1, '2025-09-08', 540),
+('Visita aos familiares', 3, 3, '2025-09-15', 1200),
+('Consulta dermatologista', 3, 4, '2025-09-21', 600),
+('Passeio no parque', 2, 2, '2025-09-23', 80),
+('Pães', 1, 1, '2025-10-03', 10),
+('Consulta particular', 2, 4, '2025-09-29', 120),
+('Viagem de ônibus', 1, 3, '2025-10-01', 560),
+('Parcela do plano de saúde', 2, 3, '2025-10-04', 340),
+('Carnes e petisco', 3, 1, '2025-10-10', 90);
+
+-- ============================
+-- CONSULTAS E ANÁLISES
+-- ============================
+
+SELECT * FROM usuarios;
+SELECT * FROM categorias;
+SELECT * FROM despesas;
+
+-- Filtros simples
+SELECT * FROM despesas WHERE id_usuario = 1;
+SELECT * FROM despesas WHERE id_categoria = 1;
+
+-- Soma total por usuário
+SELECT id_usuario, SUM(valor_gasto) AS total_gasto
+FROM despesas
+GROUP BY id_usuario
+ORDER BY total_gasto DESC;
+
+-- Máximo e mínimo para usuário 3
+SELECT 
+    MAX(valor_gasto) AS maior_gasto,
+    MIN(valor_gasto) AS menor_gasto
+FROM despesas
+WHERE id_usuario = 3;
+
+-- Média geral
+SELECT AVG(valor_gasto) AS media_gastos FROM despesas;
+
+-- Quem gastou acima da média
+SELECT id_usuario, valor_gasto
+FROM despesas
+WHERE valor_gasto > (SELECT AVG(valor_gasto) FROM despesas);
+
+-- Total gasto por usuário (JOIN)
+SELECT 
+    u.id_usuario,
+    u.nome_usuario,
+    SUM(d.valor_gasto) AS total
+FROM despesas d
+JOIN usuarios u ON u.id_usuario = d.id_usuario
+GROUP BY u.id_usuario, u.nome_usuario;
+
+-- Verificando usuários que passaram da renda mensal
+SELECT
+    u.id_usuario,
+    u.nome_usuario,
+    u.renda_mensal,
+    SUM(d.valor_gasto) AS total_gasto
+FROM usuarios u
+LEFT JOIN despesas d ON d.id_usuario = u.id_usuario
+GROUP BY u.id_usuario, u.nome_usuario, u.renda_mensal
+HAVING total_gasto > renda_mensal;
+
