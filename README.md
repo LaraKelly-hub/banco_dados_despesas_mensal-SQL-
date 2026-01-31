@@ -6,7 +6,8 @@ utilizando SQL.
 
 A proposta foi aplicar, de forma prática,conceitos que vão desde fundamentos básicos até consultas mais avançadas, consolidando o aprendizado na linguagem.
 
-🛠️ Etapas do Desenvolvimento
+🛠️ Etapas do Desenvolvimento:
+
 O projeto foi desenvolvido seguindo uma sequência lógica de aprendizado e aplicação:
 
 Criação das tabelas
