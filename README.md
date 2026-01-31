@@ -1,6 +1,7 @@
 📊 Banco de Dados de Despesas Mensais — SQL
 
-📌 Descrição do Projeto
+📌 Descrição do Projeto:
+
 Este projeto tem como objetivo a criação e análise de um banco de dados relacional voltado para o controle de despesas mensais,
 utilizando SQL.
 
@@ -37,7 +38,7 @@ Uso de JOIN para relacionar tabelas
 
 Análises para extração de informações relevantes sobre despesas
 
-🎯 Objetivo do Projeto
+🎯 Objetivo do Projeto:
 
 O principal objetivo deste projeto foi aplicar e consolidar conhecimentos em SQL, 
 
@@ -54,7 +55,7 @@ Capacidade de análise por meio de consultas SQL
 Aplicação prática de conceitos fundamentais da área de dados
 
 
-🚀 Tecnologias Utilizadas
+🚀 Tecnologias Utilizadas:
 
 SQL
 
